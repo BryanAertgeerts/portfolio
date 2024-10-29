@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bryan Aertgeerts</title>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;600&family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Raleway", sans-serif;
+        line-height: 1.6;
+        background-color: #f0f0f0;
+        color: #333;
+      }
+
+      /* Hero Section */
+      .hero {
+        height: 100vh;
+        background-image: url("me.jpg"); 
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+      }
+
+      .hero h1 {
+        font-family: "Poppins", sans-serif;
+        font-size: 4rem;
+        font-weight: 700;
+        z-index: 1;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .hero h2 {
+        font-size: 1.5rem;
+        font-weight: 300;
+        z-index: 1;
+        margin-top: 20px;
+      }
+
+      .cta-button {
+        background-color: #37baa7;
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        font-size: 18px;
+        font-family: "Poppins", sans-serif;
+        text-transform: uppercase;
+        border-radius: 30px;
+        cursor: pointer;
+        z-index: 1;
+        margin-top: 40px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        position: relative;
+      }
+
+      .cta-button:hover {
+        background-color: #54e98d;
+        transform: scale(1.05);
+      }
+
+      /* Section for content */
+      .content-section {
+        padding: 50px;
+        text-align: center;
+        background-color: white;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        margin: 50px auto;
+        max-width: 800px;
+      }
+
+      .content-section p {
+        font-size: 18px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .content-section a {
+        color: #37baa7;
+        text-decoration: none;
+        font-weight: 700;
+        transition: color 0.3s ease;
+      }
+
+      .content-section a:hover {
+        color: #ffb700;
+      }
+
+      /* Image hover effect */
+      .profile-image {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        border: 5px solid white;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Parallax Section */
+      .parallax {
+        background-image: url("https://via.placeholder.com/800x300/808080"); 
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: center;
+        height: 300px;
+        margin: 50px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: rgb(0, 0, 0);
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 600;
+      }
+
+      /* Footer */
+      footer {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      footer a {
+        color: #ffaf6d;
+        margin: 0 10px;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      footer a:hover {
+        color: #72efdd;
+      }
+
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      nav a {
+        font-family: "poppins", sans-serif;
+        text-decoration: none; /* Removes the underline */
+        color: white; /* Changes text color */
+        font-weight: 600; /* Makes the text a bit bolder */
+        position: relative; /* Positioning the underline relative to the text */
+        padding: 15px;
+        z-index: 1000; /* Ensures it stays above other content */
+      }
+
+      ul {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center; /* Centers the links */
+      }
+
+      li {
+        list-style-type: none;
+        padding: 60px; /* Spacing between links */
+      }
+
+      nav a:hover {
+        color: #ffaf6d; /* Adds a color change on hover */
+      }
+    </style>
+  </head>
+  <body style="background-color: #333">
+    
+    <!-- Hero Section -->
+    <section class="hero">
+      <header>
+        <nav>
+          <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="placeholder.html">About me</a></li>
+            <li><a href="placeholder.html">Projects</a></li>
+            <li><a href="placeholder.html">Werkplek leren</a></li>
+            <li><a href="placeholder.html">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+      <h1>Bryan Aertgeerts</h1>
+      <h2>Student Graduaat Programmeren</h2>
+      <button class="cta-button" onclick="scrollToContent()">
+        Discover More
+      </button>
+    </section>
+    
+    <!-- Profile Section -->
+    <div class="content-section" id="content">
+      <img
+        src="https://via.placeholder.com/200x200/808080" 
+        alt="Foto van Bryan Aertgeerts"
+        class="profile-image"
+      />
+      <p>
+        Een individu dat keuzes maakt en de dagen doorbrengt zoals iedereen dat
+        doet, met een mengeling van gewoonten en toevalligheden. Soms bezig met
+        dingen, soms niet, en vaak ergens tussenin. Heeft een mening over
+        bepaalde zaken, maar ook weer niet altijd.
+      </p>
+      <p>
+        Klik hier om meer te ontdekken over mijn werk:
+        <a
+          href="placeholder"
+          target="_blank"
+          >Hier</a
+        >
+      </p>
+    </div>
+
+    <!-- Parallax Section -->
+    <section class="parallax">
+      <p>Design. Code. Innovate.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2024 Bryan Aertgeerts</p>
+      <p>
+        Volg me op:
+        <a href="https://instagram.com" target="_blank"
+          ><i class="fab fa-instagram"></i
+        ></a>
+        <a href="https://linkedin.com" target="_blank"
+          ><i class="fab fa-linkedin"></i
+        ></a>
+        <a href="https://github.com" target="_blank"
+          ><i class="fab fa-github"></i
+        ></a>
+      </p>
+    </footer>
+
+    <script>
+      function scrollToContent() {
+        document.getElementById('content').scrollIntoView({ behavior: 'smooth' });
+      }
+    </script>
+  </body>
+</html>

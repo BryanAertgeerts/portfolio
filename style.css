@@ -1,0 +1,549 @@
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* --------------------------------------------- ---------------------------------------------*/
+
+/* Define CSS variables for easy color management */
+:root {
+  --primary-color: #ff5c00; /* CTA button color */
+  --secondary-color: #009bf3; /* Hover and accent color */
+  --background-dark: #212121; /* Dark background color */
+  --background-light: #f0f0f0; /* Light background color */
+  --text-color: #333; /* Default text color */
+  --footer-bg: #333; /* Footer background color */
+  --footer-link-hover: var(--secondary-color); /* Footer hover link color */
+}
+
+/* Reset default margin, padding, and set box-sizing to border-box */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global body style */
+body {
+  font-family: "Raleway", sans-serif;
+  line-height: 1.6;
+  background-color: var(--background-light);
+  color: var(--text-color);
+}
+
+/* --------------------------------------------- ---------------------------------------------*/
+/* Define the grid layout */
+.container {
+  display: grid;
+  grid-template-columns: 1fr; 
+  grid-template-rows: auto; 
+  gap: 20px; 
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Navigation bar */
+.nav {
+  grid-column: 1 / -1; /* Navigation spans across the full width */
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  background-color: var(--primary-color);
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+}
+
+/* Main content area */
+.main-content {
+  grid-column: 1 / -1; /* Main content spans the full grid */
+  background-color: var(--background-light);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Grid structure for sections */
+.sections {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two-column layout for sections */
+  gap: 20px;
+}
+
+.section {
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+
+/* --------------------------------------------- ---------------------------------------------*/
+/* Hero Section */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  padding: 40px 20px; 
+  gap: 15px;
+  color: #fff;
+  height: 100vh;
+  background-image: url("images/me.jpg");
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Dark overlay effect on hero background */
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+/* Main hero title styling */
+.hero h1 {
+  font-family: "Poppins", sans-serif;
+  font-size: 4rem;
+  font-weight: 700;
+  z-index: 1;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  animation: fadeInDown 1s ease-in-out;
+  margin-top: 10px; 
+}
+
+/* Hero subtitle styling */
+.hero h2 {
+  font-size: 1.5rem;
+  font-weight: 300;
+  z-index: 1;
+  animation: fadeInUp 1.5s ease-in-out;
+  margin-top: 10px; 
+}
+
+/* Call-to-action button in hero section */
+.cta-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+  border-radius: 30px;
+  cursor: pointer;
+  z-index: 1;
+  margin-top: 20px; 
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  position: relative;
+}
+
+.cta-button:hover {
+  background-color: var(--secondary-color);
+  transform: scale(1.05);
+}
+
+/* --------------------------------------------- ---------------------------------------------*/
+/* Fade animations */
+@keyframes fadeInDown {
+  0% {
+      opacity: 0;
+      transform: translateY(-50px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+      opacity: 0;
+      transform: translateY(50px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------- ---------------------------------------------*/
+/* Content Section */
+.content-section {
+  padding: 50px;
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  margin: 50px auto;
+  max-width: 1000px;
+  transform: translateY(50px);
+  opacity: 0;
+  animation: fadeInUp 1.5s forwards;
+}
+
+.content-section p {
+  font-size: 18px;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+/* --------------------------------------------- ---------------------------------------------*/
+
+
+/* Link styling in content section */
+.content-section a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.content-section a:hover {
+  color: var(--secondary-color);
+}
+
+/* Image hover effect */
+.profile-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 5px solid white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.profile-image:hover {
+  transform: scale(1.1) rotate(360deg);
+}
+
+/* --------------------------------------------- ---------------------------------------------*/
+/* Footer */
+footer {
+  background-color: var(--footer-bg);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+footer a {
+  color: var(--primary-color);
+  margin: 0 10px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: var(--footer-link-hover);
+}
+
+/* --------------------------------------------- ---------------------------------------------*/
+/* Navigation bar styling */
+nav a {
+  font-family: "Poppins", sans-serif;
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  position: relative;
+  padding: 15px;
+  z-index: 1000;
+  animation: fadeInDown 1s ease-in-out;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+li {
+  list-style-type: none;
+  padding: 60px;
+}
+
+nav a:hover {
+  color: var(--primary-color);
+}
+
+/* --------------------------------------------- ---------------------------------------------*/
+/* Menu Dots */
+.menu-dots {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.menu-dots .dot {
+  height: 15px;
+  width: 15px;
+  margin: 0 5px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.menu-dots .dot:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Menu Slides */
+.menu-slide {
+  display: none; /* Hide by default */
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  margin: 20px auto;
+  max-width: 1000px;
+}
+
+.menu-slide.active {
+  display: block; /* Show the active slide */
+}
+
+
+/* --------------------------------------------- ---------------------------------------------*/
+/* The actual timeline (the vertical ruler) */
+.timeline {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* The actual timeline (the vertical ruler) */
+.timeline::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  background-color: var(--primary-color); 
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -3px;
+}
+
+/* Container around content */
+.container {
+  padding: 10px 40px;
+  position: relative;
+  background-color: inherit;
+  width: 50%;
+}
+
+/* The circles on the timeline */
+.container::after {
+  content: "";
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  right: -17px;
+  background-color: white;
+  border: 4px solid var(--secondary-color); 
+  top: 15px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+/* Place the container to the left */
+.left {
+  left: 0;
+}
+
+/* Place the container to the right */
+.right {
+  left: 50%;
+}
+
+/* Add arrows to the left container (pointing right) */
+.left::before {
+  content: " ";
+  height: 0;
+  position: absolute;
+  top: 22px;
+  width: 0;
+  z-index: 1;
+  right: 30px;
+  border: medium solid white;
+  border-width: 10px 0 10px 10px;
+  border-color: transparent transparent transparent var(--secondary-color); 
+}
+
+/* Add arrows to the right container (pointing left) */
+.right::before {
+  content: " ";
+  height: 0;
+  position: absolute;
+  top: 22px;
+  width: 0;
+  z-index: 1;
+  left: 30px;
+  border: medium solid white;
+  border-width: 10px 10px 10px 0;
+  border-color: transparent var(--secondary-color) transparent transparent; 
+}
+
+/* Fix the circle for containers on the right side */
+.right::after {
+  left: -16px;
+}
+
+/* The actual content */
+.content {
+  padding: 20px 30px;
+  background-color: var(--background-light); 
+  position: relative;
+  border-radius: 6px;
+  border: 1px solid var(--secondary-color); 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* --------------------------------------------- ---------------------------------------------*/
+
+/* Contact Form Styles */
+.contact-section {
+  padding: 50px;
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  margin: 50px auto;
+  max-width: 1000px;
+  transform: translateY(50px);
+  opacity: 0;
+  animation: fadeInUp 1.5s forwards;
+}
+
+.contact-section h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form label {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: var(--secondary-color);
+  outline: none;
+}
+
+.contact-form button[type="submit"] {
+  padding: 12px;
+  font-size: 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.contact-form button[type="submit"]:hover {
+  background-color: var(--secondary-color);
+  transform: scale(1.05);
+}
+
+
+
+/* --------------------------------------------- ---------------------------------------------*/
+/* Logo styling */
+.logo {
+  position: relative; /* Allows positioning of pseudo-elements */
+  height: 200px;
+  width: 200px;
+  margin-right: 15px;
+  display: inline-block;
+  overflow: hidden; /* Ensure child elements don't overflow */
+  transition: transform 0.4s ease; /* Animation for the container */
+}
+
+/* Pseudo-element for the image */
+.logo::before {
+  content: "";
+  background-image: url("images/turtle.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: filter 0.4s ease; /* Smooth transition for filter */
+}
+
+/* Unique hover effect for the logo */
+.logo:hover {
+  transform: rotateY(360deg) scale(1.3); /* Full 3D rotation and scaling */
+}
+
+/* Image hue effect on hover */
+.logo:hover::before {
+  filter: hue-rotate(45deg); /* Apply hue rotation to the background image only */
+}
+
+/* Glow effect on hover */
+.logo:hover {
+  box-shadow: 
+    0 0 15px 5px var(--primary-color), 
+    0 0 30px 10px var(--secondary-color); 
+  animation: pulseGlow 1.5s infinite alternate; /* Adds pulsing animation */
+}
+
+/* Pulse glow animation */
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 
+      0 0 15px 5px var(--secondary-color), 
+      0 0 30px 10px var(--secondary-color);
+  }
+  100% {
+    box-shadow: 
+      0 0 25px 10px var(--primary-color), 
+      0 0 40px 15px var(--primary-color); 
+  }
+}

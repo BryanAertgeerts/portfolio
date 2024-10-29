@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simātsan Translation</title>
+    <meta charset="UTF-8">
+    <style>
+        :root {
+            --primary-color: #333333; /* Default color for light mode */
+            --secondary-color: #ffffff; /* Default color for light mode */
+            --text-color: var(--primary-color); /* Default text color */
+        }
+
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        #inputContainer {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        #inputBox {
+            width: 410px;
+            height: 40px;
+            font-size: 18px;
+            margin-bottom: 10px;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .top-to-bottom-box {
+            width: 10px;
+            height: auto;
+            font-size: 16px;
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            white-space: pre-wrap;
+            text-align: center;
+            padding: 5px 10px;
+            line-height: normal;
+            font-family: monospace;
+            margin-bottom: 25px;
+            margin-right: 25px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .top-to-bottom-box-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .language-button {
+            border: 1px solid var(--primary-color);
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        #translateButton {
+            font-size: 18px;
+            padding: 8px 15px;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .character-button {
+            border: 1px solid var(--primary-color);
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin-bottom: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .box {
+            width: 10px;
+            height: auto;
+            font-size: 16px;
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            white-space: pre-wrap;
+            text-align: center;
+            padding: 5px 10px;
+            line-height: normal;
+            font-family: monospace;
+            margin-bottom: 25px;
+            margin-right: 25px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .box-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;;
+        }
+
+        .box-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        #historyBar {
+            width: 200px;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 20px;
+            height: 100vh;
+            overflow-y: scroll;
+            box-sizing: border-box;
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            direction: ltr; /* Left-to-right layout */
+            writing-mode: horizontal-tb; /* Horizontal text */
+
+            /* Customize the scrollbar for WebKit-based browsers */
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) var(--secondary-color);
+        }
+
+        #historyBar::-webkit-scrollbar {
+            width: 12px; /* Adjust the width as needed */
+        }
+
+        #historyBar::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+        }
+
+        #historyBar::-webkit-scrollbar-thumb:hover {
+            background-color: var(--text-color);
+        }
+
+        #historyBar::-webkit-scrollbar-track {
+            background-color: var(--secondary-color);
+        }
+        
+
+        .top-to-bottom-history {
+            margin-bottom: 10px;
+            border: 1px solid var(--secondary-color);
+            padding: 10px;
+        }
+
+        .top-to-bottom-sentence-container {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .top-to-bottom-sentence {
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .top-to-bottom-sentence span {
+            display: block;
+            margin-right: 5px;
+        }
+
+        #contentContainer {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            margin-left: 200px;
+        }
+
+        #dictionary {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 300px; /* Adjust the width as needed */
+            background-color: #333; /* Gray background */
+            color: var(--secondary-color);
+            overflow-y: auto; /* Enable vertical scrolling */
+            height: 100%; /* Fill the entire height of the viewport */
+
+            direction: rtl; /* Right-to-left layout */
+            writing-mode: horizontal-tb; /* Vertical text from top to bottom, left to right */
+
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) var(--secondary-color);   
+        }
+
+        .dictionary-entry {
+            padding: 10px;
+            border-bottom: 1px solid #444; /* Dark gray border between entries */
+        }
+
+        #dictionary::-webkit-scrollbar {
+            width: 12px; /* Adjust the width as needed */
+        }
+
+        #dictionary::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+        }
+
+        #dictionary::-webkit-scrollbar-thumb:hover {
+            background-color: var(--text-color);
+        }
+
+        #dictionary::-webkit-scrollbar-track {
+            background-color: var(--secondary-color);
+        }
+
+        /* Night mode styles */
+        .night-mode {
+            --primary-color: #333333;
+            --secondary-color: #000000;
+            --text-color: #ffffff;
+        }
+
+        .night-mode body {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+        }
+
+        .night-mode #inputBox {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: 1px solid var(--text-color);
+        }
+
+        .night-mode .top-to-bottom-box {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: 1px solid var(--text-color);
+        }
+
+        .night-mode h1 {
+            color: var(--text-color);
+        }
+
+        .night-mode #outputBox {
+            color: var(--text-color);
+        }
+
+        .night-mode .language-button {
+            background-color: var(--text-color);
+            color: var(--primary-color);
+        }
+
+        .night-mode #translateButton {
+            background-color: var(--text-color);
+            color: var(--primary-color);
+        }
+
+        .night-mode #historyBar {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .night-mode .character-button {
+            background-color: var(--text-color);
+            color: var(--primary-color);
+        }
+
+        .night-mode .language-indicator {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+
+        /* Translate box styles */
+        #translateBox {
+            position: relative;
+        } 
+
+        #outputBox {
+            position: absolute;
+            top: 40%;
+            left: 0;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* Toggle slider styles */
+        .slider {
+            position: fixed;
+            top: 20px;
+            right: 60px;
+            display: flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-size: 16px;
+            font-family: sans-serif;
+            cursor: pointer;
+        }
+
+        .slider-label {
+            margin-right: 5px;
+        }
+
+        .slider-input {
+            display: none;
+        }
+
+        .slider-span {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+            background-color: var(--primary-color);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .slider-span:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: var(--secondary-color);
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .slider-input:checked + .slider-span {
+            background-color: var(--secondary-color);
+        }
+
+        .slider-input:checked + .slider-span:before {
+            transform: translateX(20px);
+        }
+
+        .slider-symbol {
+            font-weight: bold;
+        }
+
+        .slider-symbol:before {
+            content: "☀"; /* Sun symbol for light mode */
+        }
+
+        .slider-input:checked ~ .slider-symbol:before {
+            content: "🌙"; /* Moon symbol for night mode */
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="historyBar">
+        <h2>Translation History</h2>
+        <div id="translationHistory"></div>
+    </div>
+
+    <div id="container">
+        <h1 style="margin-top: -400px; font-size: 45px;">Simātsan Translator</h1>
+
+        <div id="translateBox">
+            <input type="text" class="input-box" id="inputBox" placeholder="End your verbs with '$' to enable SOV">
+            <button id="translateButton" onclick="translateWords()">Translate</button>
+        </div>
+
+        <div id="outputBox"></div>
+
+        <div id="languageButtons">
+            <button class="language-button" onclick="changeLanguage('english')">simātsan</button>
+            <button class="language-button" onclick="changeLanguage('simātsan')">English</button>
+
+            <button class="language-button" onclick="toggleDictionary()">Show Dictionary</button>
+
+        </div>
+
+        <div id="characterButtons">
+            <button class="character-button" onclick="appendCharacter('ī')">ī</button>
+            <button class="character-button" onclick="appendCharacter('ē')">ē</button>
+            <button class="character-button" onclick="appendCharacter('ā')">ā</button>
+            <button class="character-button" onclick="appendCharacter('ū')">ū</button>
+            <button class="character-button" onclick="appendCharacter('ō')">ō</button>
+        </div>
+
+        <label class="slider" for="nightModeSwitch">
+            <input type="checkbox" id="nightModeSwitch" onclick="toggleNightMode()" class="slider-input">
+            <span class="slider-span"></span>
+            <span class="slider-symbol"></span>
+        </label>
+    
+        <div id="dictionary" style="display: none;">
+            <!-- Dictionary content will be displayed here -->
+        </div>
+
+    </div>
+
+    <script>
+        // Define the translation mappings
+        const translations = {
+              /* Nouns: Words that represent people, places, things, or ideas. Examples: cat, book, London, love. */
+            "person": "ālu",
+            "animal": "kīma",
+            "animals": "rāgīma",
+            "love": "urlū",
+            "fish": "hlipa",
+            "rock": "tlete",
+            "with": "iksāo",
+            "poison": "īktō",
+            "defence": "ārowawe",
+            "teeth": "ul",
+            "spike": "ulrā",
+            "eye": "pōsha",
+            "shell": "jīkātsā",
+            "day": "tsūlā",
+            "night": "ontsā",
+            "leather": "chakumā",
+            "skin": "chīkaluā",
+            "tail": "shākin",
+            "claws": "iāon",
+            "piece off": "hlesu",
+            "waterdrop": "tsulhlesu",
+            "water": "tsul",
+            "fruit": "takmoush",
+            "sharp": "ktits",
+            "forest": "tamokihu",
+            "tree": "tamo",
+            "place": "kwān",
+            "place off": "kihu",
+            "child": "pitlu",
+            "hunter": "tukalū",
+            "hunt": "tuke",
+            "Nature": "tulhikū",
+            "mountain": "chīpūna",
+            "river": "tāhrā",
+            "flower": "shīlāka",
+            "sun": "rātsū",
+            "moon": "tsiūla",
+            "star": "pāroka",
+            "forest": "mūshika",
+            "sky": "ūlhasa",
+            "wind": "kōrūla",
+            "sound": "ūlkōsta",
+            "say": "ūlkōnū",
+
+
+                    
+            /* Verbs: Words that express actions, states, or occurrences. Examples: run, think, sleep, eat */
+            "sees$": "pohlu",
+            "like$": "urlē",
+            "love$": "urlū",
+            "fishing$": "hlipatuke",
+            "couse$": "kāni",
+            "eat$": "tilu",
+            "take$": "nōa",
+            "need$": "iri",
+            "give$": "pao",
+            "know$": "kōsta",
+            "sit$": "kō",
+            "swim$": "rāpu",
+            "see$": "pohlu",
+            "stand$": "tihi",
+            "produce$": "chīronū",
+            "roll$": "beūts",
+            "move$": "chupū",
+            "befriend$": "urlā",
+            "hunts$": "tukel",
+            "hunting$": "tukl",
+            "fishing$": "iri",
+            "explore$": "nāshūte",
+            "bloom$": "shīlāktuke",
+            "flow$": "tāhratuke",
+            "shine$": "rātsūluke",
+            "illuminate$": "tsiūlae",
+            "twinkle$": "pārokate",
+            "rustle$": "mūshiluke",
+            "gust$": "kōrūlar",
+            
+            /* Adjectives: Words that describe or modify nouns. Examples: happy, tall, blue, delicious. */
+            "small": "tsi",
+            "big": "mā",
+            "fake": "khālū",
+            "on": "iōa",
+            "real": "iūchakō",
+            "realy": "iūchak",
+            "sticky": "shirunkā",
+            "indicidual": "jūrakatats",
+            "movable": "chupūly",
+            "poisonous": "īktōīrāno",
+            "extreme": "mōshakhā",
+            "fat": "kigk",
+            "thin": "hlesu",
+            "serene": "shūshī",
+            "majestic": "chīnaka",
+            "tranquil": "tāhikū",
+            "radiant": "rātsīna",
+            "vivid": "pārhūka",
+            "lush": "mūshūl",
+            "boundless": "ūlhasīra",
+            "gentle": "kōrūshi",
+            "need": "iri",
+            
+            /* Adverbs: Words that modify verbs, adjectives, or other adverbs, providing more information about time, place, manner, degree, etc. Examples: quickly, very, there, often. */
+            "like": "urlē",
+            "gracefully": "shūshīly",
+            "quietly": "chīnaly",
+            "calmly": "tāhikūly",
+            "brightly": "rātsīnaly",
+            "joyfully": "pārhūkaly",
+            "abundantly": "mūshūlyly",
+            "endlessly": "ūlhasīrāly",
+            "softly": "kōrūshily",
+            
+            /* Prepositions: Words that indicate relationships between other words in a sentence, usually expressing location, direction, time, or manner. Examples: in, on, at, before, with. */
+            "like": "urlē",
+            "in": "",
+            "on": "",
+            "at": "",
+            "before": "",
+            "with": "",
+            
+            /* Conjunctions: Words that connect words, phrases, or clauses. Examples: and, but, or, so, because. */
+            "like": "urlē",
+            "and": "",
+            "but": "",
+            "or": "",
+            "so": "",
+            "because": "",
+
+            /*Interjections: Words or phrases used to express strong emotions or sudden reactions. Examples: wow, oh, oops, hey. */
+            "wow": "",
+            "oh": "",
+            "oops": "",
+            "hey": "",
+            
+            /* Articles: Words used to indicate whether a noun is specific or nonspecific. Examples: a, an, the. */
+            "the": "no",
+            "a": "",
+            "an": "",
+            
+            /* Determiners: Words used to provide additional information or context about nouns. Examples: this, that, these, those. */
+            "this": "",
+            "that": "",
+            "these": "",
+            "those": "",
+            "my": "nrē",
+
+            /* Pronouns: Words used in place of nouns to avoid repetition. Examples: he, she, it, they, we. */
+            "i": "pē",
+            "I": "pē",
+            "me": "pē",
+            "you": "hla",
+            "he": "ne",
+            "she": "ne",
+
+            "we": "si",
+            "You": "tsō",
+            "they": "wā",
+
+            /* to be */
+            "am": "nrū",
+            "are": "srū",
+            "is": "prū",
+        };
+
+        // Define the reverse translation mappings
+        const reverseTranslations = {
+            /* Nouns */
+            "ālu": "person",
+            "kīma": "animal",
+            "rāgīma": "animals",
+            "urlū": "love",
+            "hlipa": "fish",
+            "tlete": "rock",
+            "iksāo": "with",
+            "īktō": "poison",
+            "ārowawe": "defence",
+            "ul": "teeth",
+            "ulrā": "spike",
+            "pōsha": "eye",
+            "jīkātsā": "shell",
+            "tsūlā": "day",
+            "ontsā": "night",
+            "chakumā": "leather",
+            "chīkaluā": "skin",
+            "shākin": "tail",
+            "iāon": "claws",
+            "hlesu": "piece off",
+            "tsulhlesu": "waterdrop",
+            "tsul": "water",
+            "takmoush": "fruit",
+            "ktits": "sharp",
+            "tamokihu": "forest",
+            "tamo": "tree",
+            "kwān": "place",
+            "kihu": "place off",
+            "pitlu": "child",
+            "tukalū": "hunter",
+            "tuke": "hunt",
+            "tulhikū": "Nature",
+            "chīpūna": "Mountain",
+            "tāhrā": "River",
+            "shīlāka": "Flower",
+            "rātsū": "Sun",
+            "tsiūla": "Moon",
+            "pāroka": "Star",
+            "mūshika": "Forest",
+            "ūlhasa": "Sky",
+            "kōrūla": "Wind",
+            "ūlkōsta": "sound",
+            "ūlkōnū": "say",
+
+
+            /* Verbs */
+            "pohlu": "sees$",
+            "urlē": "like$",
+            "urlū": "love$",
+            "hlipatuke": "fishing$",
+            "kāni": "couse$",
+            "tilu": "eat$",
+            "nōa": "take$",
+            "iri": "need$",
+            "pao": "give$",
+            "kōsta": "know$",
+            "kō": "sit$",
+            "rāpu": "swim$",
+            "pohlu": "see$",
+            "tihi": "stand$",
+            "chīronū": "produce$",
+            "beūts": "roll$",
+            "chupū": "move$",
+            "urlā": "befriend$",
+            "tukel": "hunts$",
+            "tukl": "hunting$",
+            "iri": "fishing$",
+            "nāshūte": "Explore$",
+            "shīlāktuke": "Bloom$",
+            "tāhratuke": "Flow$",
+            "rātsūluke": "Shine$",
+            "tsiūlae": "Illuminate$",
+            "pārokate": "Twinkle$",
+            "mūshiluke": "Rustle$",
+            "kōrūlar": "Gust$",
+
+            /* Adjectives */
+            "tsi": "small",
+            "mā": "big",
+            "khālū": "fake",
+            "iōa": "on",
+            "iūchakō": "real",
+            "iūchak": "realy",
+            "shirunkā": "sticky",
+            "jūrakatats": "indicidual",
+            "chupūly": "movable",
+            "īktōīrāno": "poisonous",
+            "mōshakhā": "extreme",
+            "kigk": "fat",
+            "hlesu": "thin",
+            "iri": "need",
+            "shūshī": "Serene",
+            "chīnaka": "Majestic",
+            "tāhikū": "Tranquil",
+            "rātsīna": "Radiant",
+            "pārhūka": "Vivid",
+            "mūshūl": "Lush",
+            "ūlhasīra": "Boundless",
+            "kōrūshi": "Gentle",
+
+            /* Adverbs */
+            "urlē": "like",
+            "shūshīly": "Gracefully",
+            "chīnaly": "Quietly",
+            "tāhikūly": "Calmly",
+            "rātsīnaly": "Brightly",
+            "pārhūkaly": "Joyfully",
+            "mūshūlyly": "Abundantly",
+            "ūlhasīrāly": "Endlessly",
+            "kōrūshily": "Softly",
+
+            /* Prepositions */
+            "urlē": "like",
+            "in": "",
+            "on": "",
+            "at": "",
+            "before": "",
+            "with": "",
+
+            /* Conjunctions */
+            "urlē": "like",
+            "and": "",
+            "but": "",
+            "or": "",
+            "so": "",
+            "because": "",
+
+            /* Interjections */
+            "wow": "",
+            "oh": "",
+            "oops": "",
+            "hey": "",
+
+            /* Articles */
+            "no": "the",
+            "a": "",
+            "an": "",
+
+            /* Determiners */
+            "this": "",
+            "that": "",
+            "these": "",
+            "those": "",
+            "nrē": "my",
+
+            
+            /* Pronouns */
+            "pē": "I",
+            "hla": "you",
+            "Ne": "he",
+            "ne": "she",
+
+            "si": "we",
+            "tsō": "you",
+            "wā": "they",
+
+            /* to be */
+            "nrū": "am",
+            "srū": "are",
+            "prū": "is",
+
+        };
+
+        let language = "english"; // Default language is English
+
+        function translateWord(word) {
+            let translatedWord;
+
+            if (language === "english") {
+                translatedWord = translations[word];
+            } else if (language === "simātsan") {
+                translatedWord = reverseTranslations[word];
+            }
+
+            if (translatedWord) {
+                let output = "";
+                for (let i = 0; i < translatedWord.length; i++) {
+                    output += translatedWord[i] + " ";
+                }
+                return output.trim();
+            }
+
+            return word; // Return the original word if translation is not available
+        }
+
+        function translateWords() {
+            const inputBox = document.getElementById("inputBox");
+            const outputBox = document.getElementById("outputBox");
+
+            const inputText = inputBox.value;
+            const sentences = inputText.split(".");
+
+            const translatedSentences = [];
+
+            for (let i = 0; i < sentences.length; i++) {
+                const sentence = sentences[i].trim();
+                const words = sentence.split(" ");
+                let translatedWords = [];
+                let untranslatedWord = "";
+
+                for (let j = 0; j < words.length; j++) {
+                    const word = words[j];
+                    const translatedOutput = translateWord(word);
+
+                    if (word.endsWith("$")) {
+                        untranslatedWord = translatedOutput;
+                    } else {
+                        translatedWords.push(translatedOutput);
+                    }
+                }
+
+                let sentenceOutput = translatedWords.join(" \n");
+                if (untranslatedWord) {
+                    sentenceOutput += "\n" + untranslatedWord;
+                }
+                translatedSentences.push(sentenceOutput);
+            }
+
+            outputBox.innerHTML = ""; // Clear previous content
+
+            const boxContainer = document.createElement("div");
+            boxContainer.classList.add("top-to-bottom-box-container");
+
+            let currentBoxIndex = 0;
+            let currentLetterIndex = 0;
+
+            function printNextLetter() {
+                const currentBox = boxContainer.children[currentBoxIndex];
+                const sentence = translatedSentences[currentBoxIndex];
+
+                if (currentLetterIndex < sentence.length) {
+                    const letter = sentence[currentLetterIndex];
+                    if (letter === ' ') {
+                        currentLetterIndex++;
+                        setTimeout(printNextLetter, 50); // Delay between letters (in milliseconds)
+                    } else {
+                        currentBox.innerHTML += letter + "\n";
+                        currentLetterIndex++;
+                        setTimeout(printNextLetter, 50); // Delay between letters (in milliseconds)
+                    }
+                } else {
+                    currentBoxIndex++;
+                    currentLetterIndex = 0;
+                    if (currentBoxIndex < boxContainer.children.length) {
+                        setTimeout(printNextLetter, 500); // Delay between boxes (in milliseconds)
+                    } else {
+                        addToHistory(inputText, translatedSentences); // Add to history when animation is complete
+                    }
+                }
+            }
+
+            translatedSentences.forEach(function(sentence) {
+                if (sentence.trim() !== "") {
+                    const box = document.createElement("div");
+                    box.classList.add("top-to-bottom-box");
+                    boxContainer.appendChild(box);
+                }
+            });
+
+            outputBox.innerHTML = ""; // Clear previous content
+            outputBox.appendChild(boxContainer);
+            printNextLetter();
+        }
+
+        function addToHistory(inputText, translatedSentences) {
+            const translationHistory = document.getElementById("translationHistory");
+            const translationLog = document.createElement("div");
+            translationLog.classList.add("top-to-bottom-history");
+
+            const inputParagraph = document.createElement("p");
+            inputParagraph.innerHTML = "<b>Input:</b> " + inputText;
+            translationLog.appendChild(inputParagraph);
+
+            const translatedParagraph = document.createElement("p");
+            translatedParagraph.innerHTML = "<b>Translated:</b>";
+
+            const sentenceContainer = document.createElement("div");
+            sentenceContainer.classList.add("top-to-bottom-sentence-container");
+
+            translatedSentences.forEach((sentence) => {
+                const sentenceParagraph = document.createElement("p");
+                sentenceParagraph.classList.add("top-to-bottom-sentence");
+
+                for (let i = 0; i < sentence.length; i++) {
+                    const letter = sentence[i];
+                    const letterSpan = document.createElement("span");
+                    letterSpan.innerText = letter;
+                    sentenceParagraph.appendChild(letterSpan);
+                }
+
+                sentenceContainer.appendChild(sentenceParagraph);
+            });
+
+            translatedParagraph.appendChild(sentenceContainer);
+            translationLog.appendChild(translatedParagraph);
+            translationHistory.insertBefore(translationLog, translationHistory.firstChild);
+        }
+
+
+
+
+        // Call addToHistory after animation is complete
+        setTimeout(function() {
+            addToHistory(inputText, translatedSentences);
+        }, (translatedSentences.length * 500) + 1000); // Delay depends on the number of sentences
+
+        function toggleNightMode() {
+            const body = document.body;
+            body.classList.toggle("night-mode");
+        }
+
+        function changeLanguage(selectedLanguage) {
+            language = selectedLanguage;
+        }
+
+        function appendCharacter(character) {
+            const inputBox = document.getElementById('inputBox');
+            inputBox.value += character;
+        }
+
+        function toggleDictionary() {
+            const dictionary = document.getElementById("dictionary");
+
+            if (dictionary.style.display === "block") {
+                // If dictionary is visible, hide it
+                dictionary.style.display = "none";
+            } else {
+                dictionary.innerHTML = ""; // Clear previous content
+
+                if (language === "english") {
+                    for (const word in translations) {
+                        const translatedWord = translations[word];
+                        const wordPair = `${word} - ${translatedWord}`;
+                        const dictionaryEntry = document.createElement("div");
+                        dictionaryEntry.classList.add("dictionary-entry"); // Apply the style
+                        dictionaryEntry.textContent = wordPair;
+                        dictionary.appendChild(dictionaryEntry);
+                    }
+                } else if (language === "simātsan") {
+                    for (const word in reverseTranslations) {
+                        const translatedWord = reverseTranslations[word];
+                        const wordPair = `${word} - ${translatedWord}`;
+                        const dictionaryEntry = document.createElement("div");
+                        dictionaryEntry.classList.add("dictionary-entry"); // Apply the style
+                        dictionaryEntry.textContent = wordPair;
+                        dictionary.appendChild(dictionaryEntry);
+                    }
+                }
+
+                dictionary.style.display = "block"; // Show the dictionary
+            }
+        }
+    </script>
+</body>
+</html>

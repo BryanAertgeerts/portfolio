@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects - Bryan Aertgeerts</title>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;600&family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body style="background-color: var(--background-dark)">
+    <!-- Hero Section -->
+    <section class="hero">
+      <header>
+        <nav>
+          <a href="#" class="logo"></a>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="aboutMe.html">About me</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="werkplekleren.html">Werkplek leren</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+      <h1>Projects</h1>
+      <h2>Hier zijn een aantal van mijn projecten.</h2>
+      <a href="https://github.com/BryanAertgeerts">
+        <button class="cta-button">My github</button>
+      </a>
+    </section>
+
+    <!-- Content Section with Navigation Dots -->
+    <div class="content-section" id="content">
+      <div class="menu-container">
+        <div class="menu-slide active" id="section1">
+          <h2>Portfolio Website</h2>
+          <p>
+            Dit is een website die mijn portfolio weergeeft. Hier laat ik mijn
+            skils en werkervaring zien.
+          </p>
+          <iframe
+            src="index.html"
+            width="850"
+            height="800"
+            frameborder="0"
+          ></iframe>
+          <a href="" target="_blank">
+            <button class="cta-button">Show code</button>
+          </a>
+        </div>
+        <div class="menu-slide" id="section2">
+          <h2>SCI-FI Translator</h2>
+          <p>
+            Dit is een website die ik ooit eens had genaakt voor een maked up
+            language.
+          </p>
+          <iframe
+            src="projects/project1/translator.html"
+            width="850"
+            height="800"
+            frameborder="0"
+          ></iframe>
+          <a
+            href="https://github.com/BryanAertgeerts/custom-translator/blob/main/translator.html"
+            target="_blank"
+          >
+            <button class="cta-button">Show code</button>
+          </a>
+        </div>
+        <div class="menu-slide" id="section3">
+          <h2>Smart planter</h2>
+          <p>
+            Dit is een project dat ik had genaakt voor IoT. Dit is een smart
+            planter die automatisch watert, verwarmt, of afkoelt. Ook zijn er
+            meerdere presets die gemaklijk in te stellen zijn voor optimaal
+            verzorging. deze heeft ook een online tracker van data.
+          </p>
+          <img
+            src="images/smart-planter.png"
+            alt="#smart planter"
+            height="650px"
+            width="800px"
+          />
+          <a
+            href="https://github.com/BryanAertgeerts/smart-greenhouse"
+            target="_blank"
+          >
+            <button class="cta-button">Show code</button>
+          </a>
+        </div>
+        <div class="menu-slide" id="section4">
+          <h2>Jukebox</h2>
+          <p>
+            Dit is een project dat ik had genaakt voor IoT. Dit is een buzer dat tunes afspeeld dat bestuurbaar is van op de telfoon.
+            Ik gebruikte hiervoor een simple buzzer, een ESP32 en de Blynk app. Er zijn momenteel verschilende tunes beschikbaar zoals de 
+            teamsong van Harry Potter,Star Wars,Zelda, Star Trek en nog een aantal anderen.
+          </p>
+          <img
+            src="images/speaker.png"
+            alt="#speaker"
+            height="800px"
+            width="800px"
+          />
+          <a
+            href="https://github.com/BryanAertgeerts/Jukebox"
+            target="_blank"
+          >
+            <button class="cta-button">Show code</button>
+          </a>
+        </div>
+      </div>
+
+      <!-- Dots Navigation -->
+      <div class="menu-dots">
+        <span class="dot" onclick="showSection(3)"></span>
+        <span class="dot" onclick="showSection(2)"></span>
+        <span class="dot" onclick="showSection(1)"></span>
+        <span class="dot" onclick="showSection(4)"></span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2024 Bryan Aertgeerts</p>
+      <p>
+        Follow me on:
+        <a href="https://instagram.com" target="_blank"
+          ><i class="fab fa-instagram"></i
+        ></a>
+        <a href="https://linkedin.com" target="_blank"
+          ><i class="fab fa-linkedin"></i
+        ></a>
+        <a href="https://github.com/BryanAertgeerts" target="_blank"
+          ><i class="fab fa-github"></i
+        ></a>
+      </p>
+    </footer>
+
+    <!-- JavaScript for Dot Navigation -->
+    <script>
+      function showSection(sectionNumber) {
+        // Hide all sections
+        const sections = document.querySelectorAll(".menu-slide");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        // Show the selected section
+        document
+          .getElementById("section" + sectionNumber)
+          .classList.add("active");
+      }
+
+      // Initially display the first section
+      showSection(3);
+    </script>
+  </body>
+</html>
